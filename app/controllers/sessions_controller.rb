@@ -2,9 +2,10 @@ class SessionsController < ApplicationController
 	def new
 	end
 	def create
-		user = User.find_by(name: user_params[:name]).try(:authenticate, user_params[:password])
-		if user
-			render plain: sprintf("welcome, %s!", user.name)
+		@user = User.find_by(name: user_params[:name]).try(:authenticate, user_params[:password])
+		if @user
+			#render plain: sprintf("welcome, %s!", user.name)
+			@mission = @user.missions
 		else
 			flash.now[:login_error] = "invalid username or password"
 			render "new"

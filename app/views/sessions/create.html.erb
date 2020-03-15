@@ -1,2 +1,42 @@
-<h1>Sessions#create</h1>
-<p>Find me in app/views/sessions/create.html.erb</p>
+<div class="container">
+	<h1>welcome, <%= @user.name %></h1>
+
+	<div id="todolists">
+		<h1>Todo Lists</h1>
+
+	    <div class="form">
+	      <div class="form-group">
+	        <label for="todoTitle">Enter a title for this card…</label>
+	        <input type="text" v-model="todo" class="form-control" autofocus="true" id="todoTitle">
+	      </div>
+	      <div class="form-group">
+	        <label for="todoDate">Due date</label>
+	        <input type="text" name="duedate" class="form-control">
+	      </div>
+	      <button class="btn btn-primary">Add Todo</button>
+	    </div>
+
+	    <hr />
+
+	    <table width="50%">
+	      <thead>
+	        <tr>
+	          <th>#</th>
+	          <th>Item</th>
+	          <th>Due date</th>
+	          <th></th>
+	        </tr>
+	      </thead>
+	      <tbody is="draggable" tag="tbody">
+	      	<% @mission.each do |mission| %>
+	        <tr >
+	          <td><%= mission.id %></td>
+	          <td><%= mission.item %></td>
+	          <td><%= mission.duedate %></td>
+	          <td><%= link_to "Del","#", class: "btn btn-danger" %></td>
+	        </tr>
+	        <% end %>
+	      </tbody>
+	    </table>
+	</div>
+</div>

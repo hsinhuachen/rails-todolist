@@ -1,7 +1,9 @@
 <div class="container">
 	<h1>登入</h1>
 	<% if flash[:login_error] %>
-	<p><%= flash[:login_error] %></p>
+	<div class="alert alert-danger" role="alert">
+		<%= flash[:login_error] %>
+	</div>
 	<% end %>
 	<%= form_for :session, url: :sessions_create do |f| %>
 	<div class="form-group">
