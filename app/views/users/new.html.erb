@@ -8,7 +8,7 @@
 	</ul>
 	<% end %>
 
-	<%= form_for @user, url: :applicants_create do |f| %>
+	<%= form_for @user, url: users_path	 do |f| %>
 	<div class="form-group">
 	<%= f.label :name %>
 	<%= f.text_field :name, class: "form-control" %>

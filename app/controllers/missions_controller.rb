@@ -3,7 +3,8 @@ class MissionsController < ApplicationController
 	end
 
 	def create
-		@mission = Mission.new(mission_params)
+		user = User.find(session[:user_id])
+		@mission = user.missions.create(mission_params)
 
 		respond_to do |format|
 		  if @mission.save
