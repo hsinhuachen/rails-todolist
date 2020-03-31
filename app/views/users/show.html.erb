@@ -1,8 +1,14 @@
 <div class="container">
-	<h1>welcome, <%= @user.name %></h1>
+	<h1>Welcome, <%= @user.name %></h1>
+
+	<% if flash[:notice] %>
+	<div class="alert alert-success" role="alert">
+		<%= flash[:notice] %>
+	</div>
+	<% end %>
 
 	<div id="todolists">
-		<h1>Todo Lists</h1>
+		<h2>Todo Lists</h2>
 
 		<%= form_with(model: @mission) do |form| %>
 	    <div class="form">
@@ -12,21 +18,44 @@
 	      </div>
 	      <div class="form-group">
 	        <label for="todoDate">Due date</label>
-	        <input type="text" name="duedate" class="form-control">
+	      	<%= form.text_field :duedate, class: "form-control", "id": "datetimepicker" %>
 	      </div>
-	      <button class="btn btn-primary">Add Todo</button>
+	      <div class="form-group">
+	        <%= form.label :sorting, "優先順序" %>
+	        <div>
+	        	<%= form.select :sorting , Mission::SORTING, class: "form-control" %>
+	        </div>
+	      </div>
+	      <div class="form-group">
+	        <%= form.label :status, "狀態" %>
+	        <div>
+		        <%= form.select :status , Mission::STATUS, class: "form-control" %>
+		    </div>
+	      </div>
+	      <button class="btn btn-primary">
+	      	<%= 
+	      		if params[:mission_id] 
+	      			"更新任務"
+	      		else 
+	      			"新增任務"
+	      		end 
+	      	%>
+	      </button>
 	    </div>
 	    <% end %>
 
 	    <hr />
 
-	    <table width="50%">
+	    <table width="100%">
 	      <thead>
 	        <tr>
 	          <th>#</th>
 	          <th>Item</th>
 	          <th>Due date</th>
-	          <th></th>
+	          <th>狀態</th>
+	          <th>優先順序</th>
+	          <th width="70px"></th>
+	          <th width="70px"></th>
 	        </tr>
 	      </thead>
 	      <tbody is="draggable" tag="tbody">
@@ -35,10 +64,15 @@
 	          <td><%= mission.id %></td>
 	          <td><%= mission.item %></td>
 	          <td><%= mission.duedate %></td>
-	          <td><%= link_to "Del","#", class: "btn btn-danger" %></td>
+	          <td><%= Mission::STATUS[mission.status][0] %></td>
+	          <td class="<%= 'text-danger' if mission.sorting == 0 %>"><%= Mission::SORTING[mission.sorting][0] %></td>
+	          <td><%= link_to "編輯", user_path("mission_id": mission), class: "btn btn-success" %></td>
+	          <td><%= link_to "刪除", mission, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
 	        </tr>
 	        <% end %>
 	      </tbody>
 	    </table>
+
+	    <%= link_to "登出", sessions_destroy_path, method: :delete, class: "btn btn-success topRight" %>
 	</div>
 </div>

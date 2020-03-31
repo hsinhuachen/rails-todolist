@@ -13,3 +13,15 @@
  *= require_tree .
  *= require_self
  */
+ 
+@import 'bootstrap-datetimepicker';
+
+#todolists{
+	position: relative;
+}
+
+.topRight{
+	position: absolute;
+	top: 0;
+	right: 0;
+}

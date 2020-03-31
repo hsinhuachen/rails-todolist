@@ -14,8 +14,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(session[:user_id])
-    @mission = Mission.new
     @missions = @user.missions
+
+    if params[:mission_id]
+      @mission = Mission.find(params[:mission_id])
+    else
+      @mission = Mission.new
+    end
   end
 
   private

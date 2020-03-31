@@ -20,6 +20,8 @@ class SessionsController < ApplicationController
 	# 使用者登出
 	def destroy
 		session[:user_id] = nil
+		flash[:notice] = "使用者已登出"
+		redirect_to root_path
 	end
 
 	private
