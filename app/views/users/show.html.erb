@@ -10,7 +10,7 @@
 	<div id="todolists">
 		<h2>Todo Lists</h2>
 
-		<%= form_with(model: @mission) do |form| %>
+		<%= form_with url: user_missions_path(@user.id) do |form| %>
 	    <div class="form">
 	      <div class="form-group">
 	      	<%= form.label :item, "為這張卡片輸入標題" %>
@@ -41,10 +41,25 @@
 	      		end 
 	      	%>
 	      </button>
+	      <% 
+	      	if params[:mission_id] 
+	      		concat link_to "返回", user_path(@user.id),class: "btn btn-info"
+	      	end
+	      %>
 	    </div>
 	    <% end %>
 
 	    <hr />
+
+		<div class="utilities">
+			<ul class="scopes">
+				<% 
+					Mission::STATUS.each do |scope|
+						concat content_tag :li, scope[0]
+					end
+				%>
+			</ul>
+		</div>
 
 	    <table width="100%">
 	      <thead>
@@ -66,8 +81,8 @@
 	          <td><%= mission.duedate %></td>
 	          <td><%= Mission::STATUS[mission.status][0] %></td>
 	          <td class="<%= 'text-danger' if mission.sorting == 0 %>"><%= Mission::SORTING[mission.sorting][0] %></td>
-	          <td><%= link_to "編輯", user_path("mission_id": mission), class: "btn btn-success" %></td>
-	          <td><%= link_to "刪除", mission, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+	          <td><%= link_to "編輯", user_mission_path(@user.id), class: "btn btn-success" %></td>
+	          <td><%= link_to "刪除",user_mission_path(@user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
 	        </tr>
 	        <% end %>
 	      </tbody>

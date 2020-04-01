@@ -14,12 +14,23 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(session[:user_id])
-    @missions = @user.missions
+
+    if params[:status] == "pending"
+      @missions = @user.missions.pending
+    elsif params[:status] == "progress"
+      @missions = @user.missions.progress
+    elsif params[:status] == "finish"
+      @missions = @user.missions.finish
+    else
+      @missions = @user.missions
+    end
 
     if params[:mission_id]
       @mission = Mission.find(params[:mission_id])
     else
       @mission = Mission.new
+      logger.info "xxxxxxxxxx"
+      logger.info @mission
     end
   end
 
